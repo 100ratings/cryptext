@@ -1,174 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  
+  <!-- WebApp iOS / Android -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#000000" />
+
+  <!-- Manifesto e ícone -->
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <title>Cryptext Fonts</title>
 
-  <style>
-    @font-face {
-      font-family: 'Cryptext1';
-      src: url('Cryptext1.ttf') format('truetype');
-    }
-    @font-face {
-      font-family: 'Cryptext2';
-      src: url('Cryptext2.ttf') format('truetype');
-    }
-    @font-face {
-      font-family: 'Cryptext2.5';
-      src: url('Cryptext2.5.ttf') format('truetype');
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #0f0f0f;
-      color: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
-    header {
-      text-align: center;
-      padding: 24px 16px 8px;
-    }
-
-    header h1 {
-      font-size: 28px;
-      font-weight: 600;
-      margin: 0;
-      color: #f5f5f5;
-    }
-
-    main {
-      max-width: 600px;
-      margin: auto;
-      padding: 16px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 14px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      background-color: #1e1e1e;
-      color: #fff;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 30px;
-    }
-
-    .buttons button {
-      background-color: #2a2a2a;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 18px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .buttons button:hover {
-      background-color: #3a3a3a;
-    }
-
-    .font-card {
-      background: #181818;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-    }
-
-    .font-label {
-      font-size: 13px;
-      color: #aaa;
-      margin-bottom: 8px;
-    }
-
-    .preview-text {
-      font-size: 32px;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-    }
-
-    .Cryptext1 { font-family: 'Cryptext1'; }
-    .Cryptext2 { font-family: 'Cryptext2'; }
-    .Cryptext2_5 { font-family: 'Cryptext2.5'; }
-  </style>
+  <!-- Estilos e título -->
+  <title>Cryptext Font Viewer</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <header>
     <h1>Cryptext Font Viewer</h1>
   </header>
 
   <main>
-    <input type="text" id="textInput" placeholder="Digite seu texto aqui..." oninput="updatePreviews()">
+    <input type="text" id="text-input" placeholder="Digite algo…" autocomplete="off" />
 
     <div class="buttons">
-      <button onclick="setCaseMode('upper')">MAIÚSCULAS</button>
-      <button onclick="setCaseMode('lower')">minúsculas</button>
-      <button onclick="setCaseMode('capital')">Primeira Maiúscula</button>
+      <button onclick="transformarTexto('upper')">MAIÚSCULAS</button>
+      <button onclick="transformarTexto('lower')">minúsculas</button>
+      <button onclick="transformarTexto('capitalize')">Primeira Maiúscula</button>
     </div>
 
-    <div class="font-card">
-      <div class="font-label">Fonte: Cryptext1</div>
-      <div class="preview-text Cryptext1" id="preview1"></div>
-    </div>
-
-    <div class="font-card">
-      <div class="font-label">Fonte: Cryptext2</div>
-      <div class="preview-text Cryptext2" id="preview2"></div>
-    </div>
-
-    <div class="font-card">
-      <div class="font-label">Fonte: Cryptext2.5</div>
-      <div class="preview-text Cryptext2_5" id="preview3"></div>
-    </div>
+    <div id="font-container"></div>
   </main>
 
-  <script>
-    let caseMode = 'upper';
-
-    function setCaseMode(mode) {
-      caseMode = mode;
-      updatePreviews();
-    }
-
-    function formatText(text) {
-      if (caseMode === 'upper') return text.toUpperCase();
-      if (caseMode === 'lower') return text.toLowerCase();
-      if (caseMode === 'capital') {
-        return text
-          .toLowerCase()
-          .replace(/(^\w{1})|(\.\s*\w{1})/g, letter => letter.toUpperCase());
-      }
-      return text;
-    }
-
-    function updatePreviews() {
-      const input = document.getElementById('textInput').value;
-      const formatted = formatText(input);
-      document.getElementById('preview1').textContent = formatted;
-      document.getElementById('preview2').textContent = formatted;
-      document.getElementById('preview3').textContent = formatted;
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
