@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Font Preview</title>
+  <style>
+    @font-face {
+      font-family: 'Cryptext1';
+      src: url('Cryptext1.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Cryptext2';
+      src: url('Cryptext2.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Cryptext2.5';
+      src: url('Cryptext2.5.ttf') format('truetype');
+    }
+
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    input[type="text"] {
+      font-size: 20px;
+      padding: 10px;
+      width: 80%;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 30px;
+    }
+
+    .font-block {
+      margin-bottom: 40px;
+    }
+
+    .font-name {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+
+    .font-preview {
+      font-size: 36px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .Cryptext1 { font-family: 'Cryptext1'; }
+    .Cryptext2 { font-family: 'Cryptext2'; }
+    .Cryptext2_5 { font-family: 'Cryptext2.5'; }
+  </style>
+</head>
+<body>
+  <h1>🔡 Cryptext Font Preview</h1>
+  <input type="text" id="textInput" placeholder="Digite aqui..." oninput="updateText()">
+  <br>
+  <button onclick="toggleCase()">Alternar maiúsculas/minúsculas</button>
+
+  <div class="output">
+    <div class="font-block">
+      <div class="font-name">Fonte: Cryptext1</div>
+      <div id="preview1" class="font-preview Cryptext1"></div>
+    </div>
+    <div class="font-block">
+      <div class="font-name">Fonte: Cryptext2</div>
+      <div id="preview2" class="font-preview Cryptext2"></div>
+    </div>
+    <div class="font-block">
+      <div class="font-name">Fonte: Cryptext2.5</div>
+      <div id="preview3" class="font-preview Cryptext2_5"></div>
+    </div>
+  </div>
+
+  <script>
+    let uppercase = true;
+
+    function updateText() {
+      const input = document.getElementById('textInput').value;
+      const text = uppercase ? input.toUpperCase() : input.toLowerCase();
+      document.getElementById('preview1').textContent = text;
+      document.getElementById('preview2').textContent = text;
+      document.getElementById('preview3').textContent = text;
+    }
+
+    function toggleCase() {
+      uppercase = !uppercase;
+      updateText();
+    }
+
+    // Inicia com vazio
+    updateText();
+  </script>
+</body>
+</html>
