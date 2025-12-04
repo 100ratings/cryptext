@@ -93,24 +93,30 @@ input[type="text"] {
 }
 
 .preview-text {
-  font-size: 64px;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
 
-/* Classes para cada fonte */
-.Cryptext1 { font-family: 'Cryptext1'; }
-.Cryptext2 { font-family: 'Cryptext2'; }
-.Cryptext2_5 { font-family: 'Cryptext2.5'; }
+/* Estilo individual para cada fonte com tamanho próprio */
+.Cryptext1 {
+  font-family: 'Cryptext1';
+  font-size: 50px;
+}
 
+.Cryptext2 {
+  font-family: 'Cryptext2';
+  font-size: 70px;
+}
+
+.Cryptext2_5 {
+  font-family: 'Cryptext2.5';
+  font-size: 60px;
+}
+
+/* Classe opcional para rotação no clique */
 .rotated {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
   display: inline-block;
   transform-origin: center;
 }
-
-
-
-
-
