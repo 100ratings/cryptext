@@ -117,8 +117,6 @@ input[type="text"] {
 .rotated {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
-  display: inline-block;
+  display: block;
   transform-origin: center;
 }
-
-
