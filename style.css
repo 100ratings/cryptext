@@ -93,7 +93,7 @@ input[type="text"] {
 }
 
 .preview-text {
-  font-size: 32px;
+  font-size: 48px;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
@@ -102,3 +102,4 @@ input[type="text"] {
 .Cryptext1 { font-family: 'Cryptext1'; }
 .Cryptext2 { font-family: 'Cryptext2'; }
 .Cryptext2_5 { font-family: 'Cryptext2.5'; }
+
