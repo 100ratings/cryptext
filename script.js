@@ -58,3 +58,10 @@ function updatePreviews() {
     }
   });
 }
+
+.flipped {
+  transform: rotate(180deg);
+  display: inline-block;
+  transition: transform 0.4s ease-in-out;
+}
+
