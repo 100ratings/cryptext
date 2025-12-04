@@ -103,4 +103,12 @@ input[type="text"] {
 .Cryptext2 { font-family: 'Cryptext2'; }
 .Cryptext2_5 { font-family: 'Cryptext2.5'; }
 
+.rotated {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+  display: inline-block;
+  transform-origin: center;
+}
+
+
 
