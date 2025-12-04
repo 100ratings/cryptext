@@ -100,7 +100,7 @@ input[type="text"] {
 /* Estilo individual para cada fonte com tamanho próprio */
 .Cryptext1 {
   font-family: 'Cryptext1';
-  font-size: 50px;
+  font-size: 60px;
 }
 
 .Cryptext2 {
@@ -120,4 +120,5 @@ input[type="text"] {
   display: inline-block;
   transform-origin: center;
 }
+
 
