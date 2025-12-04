@@ -99,9 +99,9 @@ input[type="text"] {
 }
 
 /* Classes para cada fonte */
-.Cryptext1 { font-family: 'Cryptext 1'; }
-.Cryptext2 { font-family: 'Cryptext 2'; }
-.Cryptext2_5 { font-family: 'Cryptext 2.5'; }
+.Cryptext1 { font-family: 'Cryptext1'; }
+.Cryptext2 { font-family: 'Cryptext2'; }
+.Cryptext2_5 { font-family: 'Cryptext2.5'; }
 
 .rotated {
   transform: rotate(180deg);
@@ -109,6 +109,7 @@ input[type="text"] {
   display: inline-block;
   transform-origin: center;
 }
+
 
 
 
