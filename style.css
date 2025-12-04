@@ -105,12 +105,12 @@ input[type="text"] {
 
 .Cryptext2 {
   font-family: 'Cryptext2';
-  font-size: 70px;
+  font-size: 80px;
 }
 
 .Cryptext2_5 {
   font-family: 'Cryptext2.5';
-  font-size: 60px;
+  font-size: 70px;
 }
 
 /* Classe opcional para rotação no clique */
@@ -120,3 +120,4 @@ input[type="text"] {
   display: inline-block;
   transform-origin: center;
 }
+
