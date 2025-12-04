@@ -36,3 +36,12 @@ function setCaseMode(mode) {
   caseMode = mode;
   updatePreviews();
 }
+
+// Ativa rotação ao clicar nos previews
+document.querySelectorAll('.preview-text').forEach(el => {
+  el.addEventListener('click', () => {
+    el.classList.toggle('rotated');
+  });
+});
+
+
