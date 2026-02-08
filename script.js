@@ -37,7 +37,16 @@ function saveImage(elementId, fontName) {
     scale: 5, // Aumenta a escala em 5x para alta resolução
     backgroundColor: null, // Fundo transparente
     logging: false,
-    useCORS: true
+    useCORS: true,
+    onclone: (clonedDoc) => {
+      const el = clonedDoc.getElementById(elementId);
+      el.style.color = '#000000'; // Define a cor do texto para preto
+      el.style.background = 'transparent'; // Garante fundo transparente
+      el.style.display = 'inline-block'; // Ajusta a largura ao conteúdo (remove espaços laterais)
+      el.style.width = 'auto';
+      el.style.padding = '20px'; // Adiciona margem para evitar cortes na fonte
+      el.style.textAlign = 'center'; // Centraliza o texto caso haja quebra de linha
+    }
   };
 
   html2canvas(element, options).then(canvas => {
