@@ -89,7 +89,32 @@ input[type="text"] {
 .font-label {
   font-size: 13px;
   color: #aaa;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 8px;
+}
+
+.save-btn {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.save-btn:hover {
+  background-color: #444;
+}
+
+.save-btn:active {
+  transform: scale(0.95);
 }
 
 .preview-text {

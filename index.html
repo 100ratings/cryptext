@@ -58,24 +58,32 @@
     </div>
 
     <div class="font-card">
-      <div class="font-label">Cryptext 1</div>
+      <div class="card-header">
+        <div class="font-label">Cryptext 1</div>
+        <button class="save-btn" onclick="saveImage('preview1', 'Cryptext1')">Salvar PNG</button>
+      </div>
       <div class="preview-text Cryptext1" id="preview1"></div>
     </div>
 
     <div class="font-card">
-      <div class="font-label">Cryptext 2</div>
+      <div class="card-header">
+        <div class="font-label">Cryptext 2</div>
+        <button class="save-btn" onclick="saveImage('preview2', 'Cryptext2')">Salvar PNG</button>
+      </div>
       <div class="preview-text Cryptext2" id="preview2"></div>
     </div>
 
     <div class="font-card">
-      <div class="font-label">Cryptext 2.5</div>
+      <div class="card-header">
+        <div class="font-label">Cryptext 2.5</div>
+        <button class="save-btn" onclick="saveImage('preview3', 'Cryptext2.5')">Salvar PNG</button>
+      </div>
       <div class="preview-text Cryptext2_5" id="preview3"></div>
     </div>
   </main>
 
   <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
-

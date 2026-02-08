@@ -1,47 +1,52 @@
-let caseMode = 'upper';
-
-// Remove acentos (acentuação e cedilha)
-function removeAccents(str) {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ç/g, "c").replace(/Ç/g, "C");
+function updatePreviews() {
+  const text = document.getElementById('textInput').value || '';
+  document.getElementById('preview1').innerText = text;
+  document.getElementById('preview2').innerText = text;
+  document.getElementById('preview3').innerText = text;
 }
 
-// Formata o texto conforme o modo selecionado
-function formatText(text) {
-  const noAccents = removeAccents(text);
+function setCaseMode(mode) {
+  const input = document.getElementById('textInput');
+  let text = input.value;
 
-  if (caseMode === 'upper') return noAccents.toUpperCase();
-  if (caseMode === 'lower') return noAccents.toLowerCase();
+  if (!text) return;
 
-  if (caseMode === 'capital') {
-    return noAccents
-      .toLowerCase()
-      .replace(/(^\w|\.\s*\w|\!\s*\w|\?\s*\w)/g, match => match.toUpperCase());
+  if (mode === 'upper') {
+    text = text.toUpperCase();
+  } else if (mode === 'lower') {
+    text = text.toLowerCase();
+  } else if (mode === 'capital') {
+    // Apenas a primeira letra da frase em maiúscula
+    text = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
   }
 
-  return noAccents;
-}
-
-// Aplica a transformação nas três visualizações
-function updatePreviews() {
-  const input = document.getElementById('textInput').value;
-  const transformed = formatText(input);
-
-  document.getElementById('preview1').textContent = transformed;
-  document.getElementById('preview2').textContent = transformed;
-  document.getElementById('preview3').textContent = transformed;
-}
-
-// Define o modo (upper/lower/capital) e atualiza previews
-function setCaseMode(mode) {
-  caseMode = mode;
+  input.value = text;
   updatePreviews();
 }
 
-// Ativa rotação ao clicar nos previews
-document.querySelectorAll('.preview-text').forEach(el => {
-  el.addEventListener('click', () => {
-    el.classList.toggle('rotated');
+function saveImage(elementId, fontName) {
+  const element = document.getElementById(elementId);
+  
+  if (!element.innerText.trim()) {
+    alert("Digite algum texto para salvar a imagem.");
+    return;
+  }
+
+  // Configurações para alta definição
+  const options = {
+    scale: 5, // Aumenta a escala em 5x para alta resolução
+    backgroundColor: null, // Fundo transparente
+    logging: false,
+    useCORS: true
+  };
+
+  html2canvas(element, options).then(canvas => {
+    const link = document.createElement('a');
+    link.download = `${fontName}_${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }).catch(err => {
+    console.error("Erro ao salvar imagem:", err);
+    alert("Ocorreu um erro ao gerar a imagem.");
   });
-});
-
-
+}
