@@ -35,13 +35,13 @@ function saveImage(elementId, fontName) {
   // Configurações para alta definição
   const options = {
     scale: 5, // Aumenta a escala em 5x para alta resolução
-    backgroundColor: null, // Fundo transparente
+    backgroundColor: '#ffffff', // Fundo branco
     logging: false,
     useCORS: true,
     onclone: (clonedDoc) => {
       const el = clonedDoc.getElementById(elementId);
       el.style.color = '#000000'; // Define a cor do texto para preto
-      el.style.background = 'transparent'; // Garante fundo transparente
+      el.style.background = '#ffffff'; // Garante fundo branco
       el.style.display = 'inline-block'; // Ajusta a largura ao conteúdo (remove espaços laterais)
       el.style.width = 'auto';
       el.style.padding = '20px'; // Adiciona margem para evitar cortes na fonte
@@ -50,12 +50,29 @@ function saveImage(elementId, fontName) {
   };
 
   html2canvas(element, options).then(canvas => {
-    const link = document.createElement('a');
-    link.download = `${fontName}_${Date.now()}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    canvas.toBlob((blob) => {
+      const link = document.createElement('a');
+      link.download = `${fontName}_${Date.now()}.png`;
+      link.href = URL.createObjectURL(blob);
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    }, 'image/png');
   }).catch(err => {
     console.error("Erro ao salvar imagem:", err);
     alert("Ocorreu um erro ao gerar a imagem.");
   });
 }
+
+// Restaura a funcionalidade de girar ao clicar duas vezes
+document.addEventListener('DOMContentLoaded', () => {
+  const previews = document.querySelectorAll('.preview-text');
+  previews.forEach(preview => {
+    preview.addEventListener('dblclick', function() {
+      this.classList.toggle('rotated');
+    });
+    // Previne o menu de contexto (segurar o clique) para não selecionar
+    preview.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+  });
+});

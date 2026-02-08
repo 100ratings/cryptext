@@ -120,6 +120,11 @@ input[type="text"] {
 .preview-text {
   word-wrap: break-word;
   white-space: pre-wrap;
+  touch-action: manipulation;
+  -webkit-user-select: none; /* Safari/Chrome */
+  -webkit-touch-callout: none; /* iOS Safari - desabilita menu de toque */
+  user-select: none;
+  cursor: pointer;
 }
 
 /* Estilo individual para cada fonte com tamanho próprio */
