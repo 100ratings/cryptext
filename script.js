@@ -34,7 +34,7 @@ function saveImage(elementId, fontName) {
 
   // Configurações para alta definição
   const options = {
-    scale: 5, // Aumenta a escala em 5x para alta resolução
+    scale: 12, // Aumenta a escala para ultra resolução (aprox. 3500px+)
     backgroundColor: '#ffffff', // Fundo branco
     logging: false,
     useCORS: true,
@@ -51,11 +51,24 @@ function saveImage(elementId, fontName) {
 
   html2canvas(element, options).then(canvas => {
     canvas.toBlob((blob) => {
-      const link = document.createElement('a');
-      link.download = `${fontName}_${Date.now()}.png`;
-      link.href = URL.createObjectURL(blob);
-      link.click();
-      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      const fileName = `${fontName}_${Date.now()}.png`;
+      const file = new File([blob], fileName, { type: 'image/png' });
+
+      // Tenta abrir o menu de compartilhamento nativo (permite "Salvar Imagem" na galeria)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({
+          files: [file],
+          title: 'Salvar Imagem',
+          text: 'Imagem gerada pelo Cryptext'
+        }).catch(() => console.log('Compartilhamento fechado'));
+      } else {
+        // Fallback para download direto (Salva em Arquivos caso o share não funcione)
+        const link = document.createElement('a');
+        link.download = fileName;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      }
     }, 'image/png');
   }).catch(err => {
     console.error("Erro ao salvar imagem:", err);
