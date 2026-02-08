@@ -80,8 +80,15 @@ function saveImage(elementId, fontName) {
 document.addEventListener('DOMContentLoaded', () => {
   const previews = document.querySelectorAll('.preview-text');
   previews.forEach(preview => {
-    preview.addEventListener('dblclick', function() {
-      this.classList.toggle('rotated');
+    let lastTap = 0;
+    preview.addEventListener('click', function(e) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
+        e.preventDefault();
+        this.classList.toggle('rotated');
+      }
+      lastTap = currentTime;
     });
     // Previne o menu de contexto (segurar o clique) para não selecionar
     preview.addEventListener('contextmenu', function(e) {
