@@ -125,6 +125,9 @@ input[type="text"] {
   -webkit-touch-callout: none; /* iOS Safari - desabilita menu de toque */
   user-select: none;
   cursor: pointer;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
 }
 
 /* Estilo individual para cada fonte com tamanho próprio */
@@ -143,10 +146,12 @@ input[type="text"] {
   font-size: 70px;
 }
 
-/* Classe opcional para rotação no clique */
+/* Classe para rotação no clique - mantém quebra de linha */
 .rotated {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
   display: inline-block;
   transform-origin: center;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

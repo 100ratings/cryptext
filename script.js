@@ -38,6 +38,7 @@ function saveImage(elementId, fontName) {
     backgroundColor: '#ffffff', // Fundo branco
     logging: false,
     useCORS: true,
+    allowTaint: true,
     onclone: (clonedDoc) => {
       const el = clonedDoc.getElementById(elementId);
       el.style.color = '#000000'; // Define a cor do texto para preto
@@ -66,7 +67,9 @@ function saveImage(elementId, fontName) {
         const link = document.createElement('a');
         link.download = fileName;
         link.href = URL.createObjectURL(blob);
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
         setTimeout(() => URL.revokeObjectURL(link.href), 1000);
       }
     }, 'image/png');
@@ -76,19 +79,13 @@ function saveImage(elementId, fontName) {
   });
 }
 
-// Restaura a funcionalidade de girar ao clicar duas vezes
+// Restaura a funcionalidade de girar ao clicar UMA VEZ (correção 2)
 document.addEventListener('DOMContentLoaded', () => {
   const previews = document.querySelectorAll('.preview-text');
   previews.forEach(preview => {
-    let lastTap = 0;
     preview.addEventListener('click', function(e) {
-      const currentTime = new Date().getTime();
-      const tapLength = currentTime - lastTap;
-      if (tapLength < 300 && tapLength > 0) {
-        e.preventDefault();
-        this.classList.toggle('rotated');
-      }
-      lastTap = currentTime;
+      e.preventDefault();
+      this.classList.toggle('rotated');
     });
     // Previne o menu de contexto (segurar o clique) para não selecionar
     preview.addEventListener('contextmenu', function(e) {
