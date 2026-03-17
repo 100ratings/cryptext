@@ -117,6 +117,36 @@ input[type="text"] {
   transform: scale(0.95);
 }
 
+.button-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.save-btn-ultra {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  border: 1px solid #ff8787;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.save-btn-ultra:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+
+.save-btn-transparent {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 1px solid #8b9cff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.save-btn-transparent:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a3a8a 100%);
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+}
+
 .preview-text {
   word-wrap: break-word;
   white-space: pre-wrap;

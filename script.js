@@ -31,8 +31,8 @@ const fontConfigs = {
   'preview3': { family: 'Cryptext2.5', size: 70 }
 };
 
-function saveImage(elementId, fontName) {
-  console.log('saveImage chamado:', elementId, fontName);
+// Função genérica para gerar imagens com diferentes configurações
+function generateImage(elementId, fontName, options = {}) {
   const element = document.getElementById(elementId);
   
   if (!element.innerText.trim()) {
@@ -40,20 +40,19 @@ function saveImage(elementId, fontName) {
     return;
   }
 
-  console.log('Iniciando createImageWithCanvasAPI...');
-  // Usar Canvas API diretamente (mais confiável)
-  createImageWithCanvasAPI(elementId, fontName);
-}
+  const defaults = {
+    resolutionMultiplier: 3,
+    transparent: false,
+    padding: 15 // Padding reduzido em pixels
+  };
 
-function createImageWithCanvasAPI(elementId, fontName) {
+  const config = { ...defaults, ...options };
+  
   try {
-    const element = document.getElementById(elementId);
     const text = element.innerText;
-    const config = fontConfigs[elementId];
+    const fontConfig = fontConfigs[elementId];
 
-    console.log('createImageWithCanvasAPI:', elementId, fontName, 'Texto:', text);
-
-    if (!config) {
+    if (!fontConfig) {
       throw new Error('Configuração de fonte não encontrada');
     }
 
@@ -61,11 +60,11 @@ function createImageWithCanvasAPI(elementId, fontName) {
     const tempCanvas = document.createElement('canvas');
     const tempCtx = tempCanvas.getContext('2d');
 
-    const fontSize = config.size * 12;
-    const fontFamily = config.family;
+    const fontSize = fontConfig.size * 12 * config.resolutionMultiplier;
+    const fontFamily = fontConfig.family;
     tempCtx.font = `${fontSize}px "${fontFamily}", sans-serif`;
 
-    // Medir linhas
+    // Medir linhas e obter dimensões precisas
     const lines = text.split('\n');
     let maxWidth = 0;
     lines.forEach(line => {
@@ -73,12 +72,16 @@ function createImageWithCanvasAPI(elementId, fontName) {
       maxWidth = Math.max(maxWidth, metrics.width);
     });
 
+    // Calcular altura com baseline preciso
     const lineHeight = fontSize * 1.2;
     const totalHeight = lineHeight * Math.max(lines.length, 1);
-    const padding = 20 * 12;
+    
+    // Padding em pixels (já escalado)
+    const paddingPixels = config.padding * config.resolutionMultiplier;
 
-    const canvasWidth = Math.ceil(Math.max(maxWidth + padding * 2, 100));
-    const canvasHeight = Math.ceil(Math.max(totalHeight + padding * 2, 100));
+    // Dimensões do canvas com padding mínimo
+    const canvasWidth = Math.ceil(maxWidth + paddingPixels * 2);
+    const canvasHeight = Math.ceil(totalHeight + paddingPixels * 2);
 
     // Criar canvas final
     const canvas = document.createElement('canvas');
@@ -87,58 +90,73 @@ function createImageWithCanvasAPI(elementId, fontName) {
 
     const ctx = canvas.getContext('2d');
 
-    // Fundo branco
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Fundo (branco ou transparente)
+    if (config.transparent) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    } else {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
 
-    // Texto preto
+    // Desenhar texto centralizado
     ctx.fillStyle = '#000000';
     ctx.font = `${fontSize}px "${fontFamily}", sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
-    let y = padding;
+    // Calcular Y inicial para centralizar verticalmente
+    const totalTextHeight = (lines.length - 1) * lineHeight + fontSize;
+    const startY = (canvasHeight - totalTextHeight) / 2;
+
+    let y = startY;
     lines.forEach(line => {
       ctx.fillText(line, canvasWidth / 2, y);
       y += lineHeight;
     });
 
-    // Converter para blob
+    // Converter para blob com máxima qualidade
     canvas.toBlob((blob) => {
       if (blob && blob.size > 0) {
-        downloadImage(blob, fontName);
+        downloadImage(blob, fontName, options);
       } else {
         alert('Erro ao gerar a imagem. Tente novamente.');
       }
-    }, 'image/png', 0.95);
+    }, 'image/png', 1.0);
   } catch (err) {
     console.error('Erro ao criar imagem:', err);
     alert('Erro ao salvar a imagem: ' + err.message);
   }
 }
 
-function downloadImage(blob, fontName) {
-  try {
-    const fileName = `${fontName}_${Date.now()}.png`;
-    const file = new File([blob], fileName, { type: 'image/png' });
+function saveImage(elementId, fontName) {
+  generateImage(elementId, fontName, { resolutionMultiplier: 3, transparent: false });
+}
 
-    // Tentar compartilhamento nativo (Android/iOS)
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      navigator.share({
-        files: [file],
-        title: 'Salvar Imagem',
-        text: 'Imagem gerada pelo Cryptext'
-      }).catch(() => {
-        // Se compartilhamento falhar, fazer download
-        downloadAsFile(blob, fileName);
-      });
-    } else {
-      // Download direto (PC)
-      downloadAsFile(blob, fileName);
+function saveImageUltraHD(elementId, fontName) {
+  generateImage(elementId, fontName, { resolutionMultiplier: 4, transparent: false });
+}
+
+function saveImageTransparent(elementId, fontName) {
+  generateImage(elementId, fontName, { resolutionMultiplier: 3, transparent: true });
+}
+
+function downloadImage(blob, fontName, options = {}) {
+  try {
+    let fileName = fontName;
+    
+    if (options.resolutionMultiplier === 4) {
+      fileName += '_UltraHD';
+    } else if (options.transparent) {
+      fileName += '_Transparent';
     }
-  } catch (err) {
-    console.error('Erro ao compartilhar:', err);
+    
+    fileName += `_${Date.now()}.png`;
     downloadAsFile(blob, fileName);
+  } catch (err) {
+    console.error('Erro ao fazer download:', err);
+    downloadAsFile(blob, `${fontName}_${Date.now()}.png`);
   }
 }
 
