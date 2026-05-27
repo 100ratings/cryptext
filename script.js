@@ -5,23 +5,27 @@ const fontConfigs = {
   'preview3': { family: 'Cryptext2.5', size: 70, countId: 'count3' }
 };
 
-// Mapa de pesos de caracteres por fonte (baseado na análise do usuário)
-// Separando RIGOROSAMENTE maiúsculas de minúsculas
+/**
+ * Mapa de pesos de caracteres por fonte (baseado na análise RIGOROSA do usuário)
+ * Letras NÃO listadas aqui valem automaticamente 1.
+ */
 const characterWeights = {
   'preview1': {
-    // Cryptext 1: Maiúsculas = M, R, W | Minúsculas = m, r, w
+    // Cryptext 1: Maiscula = M, R, W | Minuscula = M, R, W
     'M': 2, 'R': 2, 'W': 2,
     'm': 2, 'r': 2, 'w': 2
   },
   'preview2': {
-    // Cryptext 2: Maiúsculas = K, M, P, R, W | Minúsculas = d, k, m, w
+    // Cryptext 2: Maiscula = K, M, P, R, W | Minuscula = D, K, M, W
     'K': 2, 'M': 2, 'P': 2, 'R': 2, 'W': 2,
     'd': 2, 'k': 2, 'm': 2, 'w': 2
+    // Nota: 'D' (maiúsculo) NÃO vale 2. 'p' e 'r' (minúsculos) NÃO valem 2.
   },
   'preview3': {
-    // Cryptext 2.5: Maiúsculas = M, R, W | Minúsculas = k, m, p, w
+    // Cryptext 2.5: Maiscula = M, R, W | Minuscula = K, M, P, W
     'M': 2, 'R': 2, 'W': 2,
     'k': 2, 'm': 2, 'p': 2, 'w': 2
+    // Nota: 'K' e 'P' (maiúsculos) NÃO valem 2. 'r' (minúsculo) NÃO vale 2.
   }
 };
 
@@ -31,7 +35,6 @@ function countLetters(text, previewId) {
   let count = 0;
   
   for (let char of text) {
-    // Se o caractere está no mapa de pesos, usa o peso; caso contrário, assume 1
     count += weights[char] || 1;
   }
   
