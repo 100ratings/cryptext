@@ -5,64 +5,37 @@ const fontConfigs = {
   'preview3': { family: 'Cryptext2.5', size: 70, countId: 'count3' }
 };
 
-// Mapa de pesos de caracteres por fonte (será preenchido pela calibração)
-let characterWeights = {
-  'preview1': {},
-  'preview2': {},
-  'preview3': {}
+// Mapa de pesos de caracteres por fonte (baseado na análise do usuário)
+const characterWeights = {
+  'preview1': {
+    'M': 2, 'm': 2,
+    'R': 2, 'r': 2,
+    'W': 2, 'w': 2
+  },
+  'preview2': {
+    'K': 2, 'k': 2,
+    'M': 2, 'm': 2,
+    'P': 2, 'p': 2,
+    'R': 2, 'r': 2,
+    'W': 2, 'w': 2,
+    'D': 2, 'd': 2
+  },
+  'preview3': {
+    'M': 2, 'm': 2,
+    'R': 2, 'r': 2,
+    'W': 2, 'w': 2,
+    'K': 2, 'k': 2,
+    'P': 2, 'p': 2
+  }
 };
 
-/**
- * Calibra os pesos dos caracteres medindo a largura de cada um.
- * Letras que ocupam muito mais espaço que a média (como o 'D' no Cryptext 2)
- * serão contadas como 2 letras.
- */
-function calibrateFontWeights() {
-  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const testFontSize = 100; // Tamanho grande para precisão na medição
-  
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-
-  Object.entries(fontConfigs).forEach(([previewId, config]) => {
-    ctx.font = `${testFontSize}px "${config.family}"`;
-    
-    let widths = [];
-    let charWidthMap = {};
-
-    // Medir cada caractere
-    for (let char of chars) {
-      const width = ctx.measureText(char).width;
-      widths.push(width);
-      charWidthMap[char] = width;
-    }
-
-    // Calcular a mediana das larguras para ter uma base confiável
-    widths.sort((a, b) => a - b);
-    const medianWidth = widths[Math.floor(widths.length / 2)];
-    
-    // Definir pesos: se for > 1.6x a mediana, conta como 2 letras
-    // (Usamos 1.6x para dar uma margem de segurança contra letras naturalmente largas como 'W' ou 'M')
-    characterWeights[previewId] = {};
-    for (let char of chars) {
-      if (charWidthMap[char] > medianWidth * 1.6) {
-        characterWeights[previewId][char] = 2;
-      } else {
-        characterWeights[previewId][char] = 1;
-      }
-    }
-    
-    console.log(`Calibração concluída para ${config.family}. Mediana: ${medianWidth.toFixed(1)}px`);
-  });
-}
-
-// Função para contar letras visuais com base nos pesos calibrados
+// Função para contar letras visuais com base nos pesos definidos
 function countLetters(text, previewId) {
   const weights = characterWeights[previewId] || {};
   let count = 0;
   
   for (let char of text) {
-    // Se o caractere não estiver no mapa de calibração (ex: números ou símbolos), assume peso 1
+    // Se o caractere está no mapa de pesos, usa o peso; caso contrário, assume 1
     count += weights[char] || 1;
   }
   
@@ -247,17 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // Aguarda as fontes carregarem para calibrar
-  if (document.fonts) {
-    document.fonts.ready.then(() => {
-      calibrateFontWeights();
-      updateLetterCounts();
-    });
-  } else {
-    // Fallback para navegadores antigos
-    setTimeout(() => {
-      calibrateFontWeights();
-      updateLetterCounts();
-    }, 1000);
-  }
+  // Inicializar contadores
+  updateLetterCounts();
 });
