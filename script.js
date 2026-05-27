@@ -6,26 +6,22 @@ const fontConfigs = {
 };
 
 // Mapa de pesos de caracteres por fonte (baseado na análise do usuário)
+// Separando RIGOROSAMENTE maiúsculas de minúsculas
 const characterWeights = {
   'preview1': {
-    'M': 2, 'm': 2,
-    'R': 2, 'r': 2,
-    'W': 2, 'w': 2
+    // Cryptext 1: Maiúsculas = M, R, W | Minúsculas = m, r, w
+    'M': 2, 'R': 2, 'W': 2,
+    'm': 2, 'r': 2, 'w': 2
   },
   'preview2': {
-    'K': 2, 'k': 2,
-    'M': 2, 'm': 2,
-    'P': 2, 'p': 2,
-    'R': 2, 'r': 2,
-    'W': 2, 'w': 2,
-    'D': 2, 'd': 2
+    // Cryptext 2: Maiúsculas = K, M, P, R, W | Minúsculas = d, k, m, w
+    'K': 2, 'M': 2, 'P': 2, 'R': 2, 'W': 2,
+    'd': 2, 'k': 2, 'm': 2, 'w': 2
   },
   'preview3': {
-    'M': 2, 'm': 2,
-    'R': 2, 'r': 2,
-    'W': 2, 'w': 2,
-    'K': 2, 'k': 2,
-    'P': 2, 'p': 2
+    // Cryptext 2.5: Maiúsculas = M, R, W | Minúsculas = k, m, p, w
+    'M': 2, 'R': 2, 'W': 2,
+    'k': 2, 'm': 2, 'p': 2, 'w': 2
   }
 };
 
